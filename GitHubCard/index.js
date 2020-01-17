@@ -2,9 +2,15 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
-axios.get('https://api.github.com/users/ringosimonchen0820')
+const cardParent = document.querySelector('.cards');
+
+axios.get('https://api.github.com/users/max821023')
   .then(response => {
-    console.log(response);
+    console.log(response.data);
+    cardParent.append(createCard(response.data));
+  })
+  .catch(error => {
+    console.log("the data was not returned", error)
   })
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -16,6 +22,8 @@ axios.get('https://api.github.com/users/ringosimonchen0820')
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -83,8 +91,31 @@ function createCard(data) {
   userName.classList.add('username');
 
   // setup context of elements 
-  
+  profilePic.src = data.avatar_url;
+  name.textContent = data.name;
+  userName.textContent = data.login;
+  location.textContent = data.location;
+  profileLink.href = data.html_url;
+  bio.textContent = data.bio;
 
+  if(data.followers >= 2) {
+      followers.textContent = `I have ${data.followers} followers.`;
+    } else if (data.followers = 1) {
+      followers.textContent = `I ONLY have ONE follower!!!`;
+    } else {
+      followers.textContent = `I AM A LOSER, NO ONE FOLLOWS ME!!!`
+    }
+  
+  if(data.following >= 2) {
+      following.textContent = `I am following ${data.following} users.`;
+    } else if (data.following = 1) {
+      following.textContent = `I am following one user.`;
+    } else {
+      following.textContent = `I AM A HATER, I FOLLOW NO ONE!!!`;
+    }
+
+  // return result
+  return card;
 }
 
 /* List of LS Instructors Github username's: 
